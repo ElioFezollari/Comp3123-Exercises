@@ -28,7 +28,7 @@ const server = http.createServer((req, res) => {
         if (req.url === '/employee/names') {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             let firstNames = []
-            employees.forEach((employee)=>{firstNames.push(employee.firstName)})
+            employees.forEach((employee)=>{firstNames.push(employee.firstName + " " +  employee.lastName)})
             firstNames.sort((personOne,personTwo)=>{
                 return personOne.localeCompare(personTwo)
             })
@@ -44,9 +44,7 @@ const server = http.createServer((req, res) => {
             res.write(JSON.stringify(totalSalary))
             res.end();
     }
-    else{
-    res.end(`{"error": "${http.STATUS_CODES[404]}"}`)
-    }
+
 }
 })
 
