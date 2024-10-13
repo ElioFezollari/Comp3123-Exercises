@@ -5,11 +5,7 @@ const noteRouter = require('express').Router()
 noteRouter.post('',async (req, res) => {
     const {noteTitle,noteDescription,priority} = req.body
     // Validate request
-    if(!req.body.content) {
-        return res.status(400).send({
-            message: "Note content can not be empty"
-        });
-    }
+    
     if(!noteTitle || !noteDescription || !priority){
         return res.status(400).send({
             message:"Note needs to have a title description and priority"
@@ -70,17 +66,16 @@ noteRouter.put('/:noteId', async (req, res) => {
     const noteId = req.params.noteId;
     const { noteTitle, noteDescription, priority } = req.body;
 
-    if(!req.body.content) {
+    if(!noteTitle && !noteDescription && !priority) {
         return res.status(400).send({
             message: "Note content can not be empty"
         });
     }
-
-    if(priority !== "HIGH" || priority !== "MEDIUM" || priority !== "LOW"){
+    console.log(priority)
+    if (priority && (priority !== "HIGH" && priority !== "MEDIUM" && priority !== "LOW")) {
         return res.status(400).send({
-            message:"Please add a valid priority"
-        })
-
+            message: "Please add a valid priority"
+        });
     }
     try{
     const noteUpdated = await Note.findByIdAndUpdate(
